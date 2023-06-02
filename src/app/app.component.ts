@@ -14,6 +14,8 @@ import { BaseNavigationService } from './services/navigation/base-navigation.ser
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
+import { BaseRemoteControlService } from './services/remote-control/base-remote-control.service';
+
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
@@ -32,6 +34,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private searchService: BaseSearchService,
         private addToPlaylistMenu: AddToPlaylistMenu,
         private desktop: BaseDesktop,
+        private remoteControlService: BaseRemoteControlService,
         private logger: Logger
     ) {
         log.create('renderer');
@@ -56,6 +59,8 @@ export class AppComponent implements OnInit, OnDestroy {
             'AppComponent',
             'ngOnInit'
         );
+
+        this.remoteControlService.test()
 
         this.subscription.add(
             this.navigationService.showPlaybackQueueRequested$.subscribe(() => {

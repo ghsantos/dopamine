@@ -29,6 +29,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularSplitModule } from 'angular-split';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import 'reflect-metadata';
 import '../polyfills';
 import { AppRoutingModule } from './app-routing.module';
@@ -211,6 +212,10 @@ import { PresenceUpdater } from './services/discord/presence-updater';
 import { ElectronService } from './services/electron.service';
 import { BaseFileService } from './services/file/base-file.service';
 import { FileService } from './services/file/file.service';
+
+import { BaseRemoteControlService } from './services/remote-control/base-remote-control.service';
+import { RemoteControlService } from './services/remote-control/remote-control.service';
+
 import { BaseFolderService } from './services/folder/base-folder.service';
 import { FolderService } from './services/folder/folder.service';
 import { BaseGenreService } from './services/genre/base-genre.service';
@@ -306,6 +311,8 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
             });
         });
 }
+
+const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
 
 @NgModule({
     declarations: [
@@ -428,6 +435,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         AppRoutingModule,
         AngularSplitModule,
         ScrollingModule,
+        SocketIoModule.forRoot(config),
         TranslateModule.forRoot({
             loader: {
                 provide: TranslateLoader,
@@ -548,6 +556,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         { provide: BaseAppearanceService, useClass: AppearanceService },
         { provide: BaseFolderService, useClass: FolderService },
         { provide: BaseFileService, useClass: FileService },
+        { provide: BaseRemoteControlService, useClass: RemoteControlService },
         { provide: BaseTrayService, useClass: TrayService },
         { provide: BaseSemanticZoomService, useClass: SemanticZoomService },
         { provide: BaseSettings, useClass: Settings },
