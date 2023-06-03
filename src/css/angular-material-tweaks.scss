@@ -1,0 +1,113 @@
+.mat-app-background {
+    background-color: var(--theme-main-background) !important;
+}
+
+.mat-drawer-container {
+    background-color: var(--theme-main-background) !important;
+}
+
+.mat-drawer {
+    background-color: var(--theme-side-pane-background) !important;
+}
+
+.mat-menu-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-menu-item {
+    color: var(--theme-primary-text) !important;
+}
+
+.mat-select-panel {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-option:hover {
+    background: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+.mat-option.mat-selected:not(.mat-option-multiple):not(.mat-option-disabled) {
+    background: rgba(var(--theme-rgb-base), 0.1) !important;
+}
+
+.mat-menu-item:hover {
+    background: rgba(var(--theme-rgb-base), 0.06) !important;
+}
+
+// Buttons
+.mat-mdc-raised-button {
+    background: var(--theme-secondary-button-background) !important;
+}
+
+.mat-mdc-raised-button > * {
+    color: var(--theme-secondary-button-text) !important;
+}
+
+.mat-mdc-raised-button.mat-primary {
+    background: var(--theme-accent-color) !important;
+}
+
+.mat-mdc-raised-button.mat-primary > * {
+    color: var(--theme-primary-button-text) !important;
+}
+
+// Checkboxes
+.mdc-checkbox__ripple {
+    display: none !important;
+}
+
+.mat-mdc-checkbox-ripple.mat-mdc-focus-indicator {
+    display: none !important;
+}
+
+.mat-mdc-checkbox
+    .mdc-checkbox
+    .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate='true'])
+    ~ .mdc-checkbox__background {
+    border-width: 1px !important;
+    border-color: var(--theme-secondary-text) !important;
+}
+
+.mdc-checkbox__checkmark-path {
+    stroke: var(--theme-primary-button-text) !important;
+}
+
+// Chips
+.mdc-evolution-chip__text-label {
+    color: var(--theme-primary-text) !important;
+}
+
+// Dialogs
+.mat-mdc-dialog-surface {
+    background-color: var(--theme-dialog-background) !important;
+}
+
+.mat-mdc-dialog-content {
+    color: var(--theme-primary-text) !important;
+    font-size: var(--fontsize-normal) !important;
+}
+
+.mat-mdc-dialog-actions {
+    padding: 0 24px 24px 24px !important;
+}
+
+// TODO: workaround for bug #26348: https://github.com/angular/components/issues/26348
+// Based on code from (this change broke it): https://github.com/angular/components/commit/176213d705f25def682644e29824b340ca1637b6
+// So much time of my life wasted, once again. I shouldn't have to do such things.
+.cdk-virtual-scroll-spacer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1px;
+    width: 1px;
+    transform-origin: 0 0;
+
+    // Note: We can't put `will-change: transform;` here because it causes Safari to not update the
+    // viewport's `scrollHeight` when the spacer's transform changes.
+
+    [dir='rtl'] & {
+        right: 0;
+        left: auto;
+        transform-origin: 100% 0;
+    }
+}
