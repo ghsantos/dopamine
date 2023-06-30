@@ -240,6 +240,8 @@ import { TrackIndexer } from './services/indexing/track-indexer';
 import { TrackRemover } from './services/indexing/track-remover';
 import { TrackUpdater } from './services/indexing/track-updater';
 import { TrackVerifier } from './services/indexing/track-verifier';
+import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
+import { MediaSessionService } from './services/media-session/media-session.service';
 import { BaseMetadataService } from './services/metadata/base-metadata.service';
 import { MetadataService } from './services/metadata/metadata.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
@@ -548,6 +550,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         { provide: BaseDiscordService, useClass: DiscordService },
         { provide: BasePlaybackIndicationService, useClass: PlaybackIndicationService },
         { provide: BasePlaybackInformationService, useClass: PlaybackInformationService },
+        { provide: BaseMediaSessionService, useClass: MediaSessionService },
         { provide: BaseMetadataService, useClass: MetadataService },
         { provide: BaseSearchService, useClass: SearchService },
         { provide: BasePlaylistService, useClass: PlaylistService },
