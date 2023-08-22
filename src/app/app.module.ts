@@ -4,26 +4,24 @@ import { LOCATION_INITIALIZED } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, ErrorHandler, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatRippleModule } from '@angular/material/core';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
-import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
-import { MatLegacySliderModule as MatSliderModule } from '@angular/material/legacy-slider';
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatLegacyTabsModule as MatTabsModule } from '@angular/material/legacy-tabs';
-import { MatLegacyTooltipDefaultOptions as MatTooltipDefaultOptions, MatLegacyTooltipModule as MatTooltipModule, MAT_LEGACY_TOOLTIP_DEFAULT_OPTIONS as MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/legacy-tooltip';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -60,12 +58,15 @@ import { BaseApplication } from './common/io/base-application';
 import { BaseDesktop } from './common/io/base-desktop';
 import { BaseFileAccess } from './common/io/base-file-access';
 import { BaseIpcProxy } from './common/io/base-ipc-proxy';
+import { BaseMediaSessionProxy } from './common/io/base-media-session-proxy';
 import { BaseTranslateServiceProxy } from './common/io/base-translate-service-proxy';
 import { DateProxy } from './common/io/date-proxy';
 import { Desktop } from './common/io/desktop';
 import { DocumentProxy } from './common/io/document-proxy';
 import { FileAccess } from './common/io/file-access';
 import { IpcProxy } from './common/io/ipc-proxy';
+import { LogViewer } from './common/io/log-viewer';
+import { MediaSessionProxy } from './common/io/media-session-proxy';
 import { TranslateServiceProxy } from './common/io/translate-service-proxy';
 import { Logger } from './common/logger';
 import { MathExtensions } from './common/math-extensions';
@@ -165,6 +166,7 @@ import { AppearanceSettingsComponent } from './components/settings/appearance-se
 import { BehaviorSettingsComponent } from './components/settings/behavior-settings/behavior-settings.component';
 import { OnlineSettingsComponent } from './components/settings/online-settings/online-settings.component';
 import { SettingsComponent } from './components/settings/settings.component';
+import { SliderComponent } from './components/slider/slider.component';
 import { SnackBarComponent } from './components/snack-bar/snack-bar.component';
 import { StepIndicatorComponent } from './components/step-indicator/step-indicator.component';
 import { ThemeSwitcherComponent } from './components/theme-switcher/theme-switcher.component';
@@ -354,6 +356,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         CollectionFoldersComponent,
         CollectionPlaybackPaneComponent,
         VolumeControlComponent,
+        SliderComponent,
         FolderNamePipe,
         SubfolderNamePipe,
         FormatTrackNumberPipe,
@@ -426,8 +429,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         MatTabsModule,
         MatCheckboxModule,
         MatChipsModule,
-        MatProgressBarModule,
-        MatSliderModule,
         MatSortModule,
         DragDropModule,
         HammerModule,
@@ -526,6 +527,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         DateProxy,
         DateTime,
         TabSelectionGetter,
+        LogViewer,
         { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomTooltipDefaults },
         { provide: BaseFileAccess, useClass: FileAccess },
         { provide: BaseAlbumArtworkRepository, useClass: AlbumArtworkRepository },
@@ -567,6 +569,7 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
         { provide: BaseApplication, useClass: Application },
         { provide: BaseIpcProxy, useClass: IpcProxy },
         { provide: BaseTranslateServiceProxy, useClass: TranslateServiceProxy },
+        { provide: BaseMediaSessionProxy, useClass: MediaSessionProxy },
         { provide: BaseAudioPlayer, useClass: AudioPlayer },
         { provide: BaseDesktop, useClass: Desktop },
         { provide: BaseFileMetadataFactory, useClass: FileMetadataFactory },
@@ -577,6 +580,6 @@ const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
             useClass: GlobalErrorHandler,
         },
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

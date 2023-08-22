@@ -8,7 +8,9 @@ import { AddToPlaylistMenu } from './components/add-to-playlist-menu';
 import { BaseAppearanceService } from './services/appearance/base-appearance.service';
 import { BaseDialogService } from './services/dialog/base-dialog.service';
 import { BaseDiscordService } from './services/discord/base-discord.service';
+import { BaseMediaSessionService } from './services/media-session/base-media-session.service';
 import { BaseNavigationService } from './services/navigation/base-navigation.service';
+import { BaseScrobblingService } from './services/scrobbling/base-scrobbling.service';
 import { BaseSearchService } from './services/search/base-search.service';
 import { BaseTranslatorService } from './services/translator/base-translator.service';
 import { BaseTrayService } from './services/tray/base-tray.service';
@@ -19,8 +21,11 @@ describe('AppComponent', () => {
     let translatorServiceMock: IMock<BaseTranslatorService>;
     let dialogServiceMock: IMock<BaseDialogService>;
     let discordServiceMock: IMock<BaseDiscordService>;
+    let scrobblingServiceMock: IMock<BaseScrobblingService>;
     let trayServiceMock: IMock<BaseTrayService>;
     let searchServiceMock: IMock<BaseSearchService>;
+    let mediaSessionServiceMock: IMock<BaseMediaSessionService>;
+
     let addToPlaylistMenuMock: IMock<AddToPlaylistMenu>;
     let desktopMock: IMock<BaseDesktop>;
     let loggerMock: IMock<Logger>;
@@ -36,8 +41,10 @@ describe('AppComponent', () => {
             translatorServiceMock.object,
             dialogServiceMock.object,
             discordServiceMock.object,
+            scrobblingServiceMock.object,
             trayServiceMock.object,
             searchServiceMock.object,
+            mediaSessionServiceMock.object,
             addToPlaylistMenuMock.object,
             desktopMock.object,
             loggerMock.object
@@ -50,8 +57,10 @@ describe('AppComponent', () => {
         translatorServiceMock = Mock.ofType<BaseTranslatorService>();
         dialogServiceMock = Mock.ofType<BaseDialogService>();
         discordServiceMock = Mock.ofType<BaseDiscordService>();
+        scrobblingServiceMock = Mock.ofType<BaseScrobblingService>();
         trayServiceMock = Mock.ofType<BaseTrayService>();
         searchServiceMock = Mock.ofType<BaseSearchService>();
+        mediaSessionServiceMock = Mock.ofType<BaseMediaSessionService>();
         addToPlaylistMenuMock = Mock.ofType<AddToPlaylistMenu>();
         desktopMock = Mock.ofType<BaseDesktop>();
         loggerMock = Mock.ofType<Logger>();
@@ -163,6 +172,28 @@ describe('AppComponent', () => {
 
             // Assert
             matDrawerMock.verify((x) => x.toggle(), Times.exactly(1));
+        });
+
+        it('should initialize MediaSessionService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            mediaSessionServiceMock.verify((x) => x.initialize(), Times.once());
+        });
+
+        it('should initialize ScrobblingService', async () => {
+            // Arrange
+            const app: AppComponent = createComponent();
+
+            // Act
+            await app.ngOnInit();
+
+            // Assert
+            scrobblingServiceMock.verify((x) => x.initialize(), Times.once());
         });
     });
 
