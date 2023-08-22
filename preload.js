@@ -1,9 +1,11 @@
 const express = require('express');
-const app = express();
 const http = require('http');
-const server = http.createServer(app);
 const { Server } = require("socket.io");
-const io = new Server(server);
+const fs = require('fs');
+
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server, { maxHttpBufferSize: 1e7 });
 
 const TRACK = {
   isPlaying: false,
@@ -13,6 +15,16 @@ const TRACK = {
 }
 
 let currentTrack = TRACK
+let image
+
+fs.readFile(__dirname + '/static/icons/512x512.png', (err, data) => {
+  if (err) {
+    console.log(err)
+    return
+  }
+  let str = data.toString('base64')
+  image = Buffer.from(str, 'base64');
+});
 
 app.get('/', (req, res) => {
   // res.send('Hello World!');
@@ -20,8 +32,12 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('a user connected', socket.conn.server.clientsCount);
   io.emit('trackstate', currentTrack);
+  if (image) {
+    io.emit('trackcover', image);
+  }
+  // io.emit('trackcover', image)
 
   socket.on('chat message', msg => {
     io.emit('chat message', msg);
@@ -46,6 +62,19 @@ io.on('connection', (socket) => {
     io.emit('chat message', JSON.stringify(data));
     currentTrack = data
     io.emit('trackstate', data);
+  })
+
+  socket.on("upload", (file, callback) => {
+    console.log('upload');
+
+    !!callback && callback({ message: "success" });
+
+    image = file
+    io.emit('trackcover', file);
+  });
+
+  socket.on("playbackprogress", progress => {
+    io.emit('playbackprogress', progress)
   })
 });
 
