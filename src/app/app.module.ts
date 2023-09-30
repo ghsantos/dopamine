@@ -316,7 +316,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
         });
 }
 
-const config: SocketIoConfig = { url: 'http://localhost:3000', options: {} };
+const config: SocketIoConfig = { url: 'http://localhost:4044', options: {} };
 
 @NgModule({
     declarations: [

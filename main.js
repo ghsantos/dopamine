@@ -102,7 +102,7 @@ function createMainWindow() {
             webSecurity: false,
             nodeIntegration: true,
             contextIsolation: false,
-            // preload: path.join(__dirname, 'preload.js'),
+            preload: path.join(__dirname, 'preload.js'),
         },
         show: false,
     });
@@ -113,7 +113,7 @@ function createMainWindow() {
         require('electron-reload')(__dirname, {
             electron: require(`${__dirname}/node_modules/electron`),
         });
-        mainWindow.loadURL('http://localhost:4200');
+        mainWindow.loadURL('http://localhost:4222');
     }
     else {
         mainWindow.loadURL(url.format({
